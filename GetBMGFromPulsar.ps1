@@ -43,7 +43,7 @@ $InBMGMagic = New-Object byte[] 8
 
 if (-not [System.Linq.Enumerable]::SequenceEqual($InBMGMagic, $BMGMagic))
 {
-    Write-Error "Could not find BMG data in your Config.pul. Abort!"
+    Write-Error "Could not find BMG data in your Config.pul. Abort!" -Category InvalidData
     exit
 }
 
@@ -72,7 +72,7 @@ if ([string]::IsNullOrEmpty($OutPath))
         $OutPath = $SaveDialog.FileName
     } else
     {
-        Write-Error "Abort!"
+        Write-Error "Abort!" -Category OperationStopped
         exit
     }
 }
@@ -83,10 +83,9 @@ if ($Decode)
 {
     Write-Host "Done. Now begin to decode the BMG using wbmgt." -ForegroundColor Green
 
-    if ($null -eq (Get-Command "wbmgt.exe" -ErrorAction SilentlyContinue))
+    if ($null -eq (Get-Command "wbmg.exe" -ErrorAction SilentlyContinue))
     {
-        Write-Error "Attempted to decode the BMG but wbmgt not found."
-        Write-Error "Make sure Wiimms SZS Tools has been installed. Abort!"
+        Write-Error "Attempted to decode the BMG but wbmgt not found.`r`nMake sure Wiimms SZS Tools has been installed. Abort!" -Category NotInstalled
         exit
     }
 
